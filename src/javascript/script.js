@@ -27,6 +27,9 @@ let nextTaskId = 1;               // Próximo ID único para nova tarefa
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🚀 Iniciando sistema Kanban Dark...');
     
+    // Verifica se precisa limpar tarefas de exemplo antigas
+    checkAndClearOldExamples();
+    
     // Carrega tarefas salvas do navegador
     loadTasksFromStorage();
     
@@ -44,6 +47,26 @@ document.addEventListener('DOMContentLoaded', () => {
     
     console.log('✅ Sistema inicializado com sucesso!');
 });
+
+// ===== LIMPEZA DE DADOS ANTIGOS =====
+/**
+ * Verifica e remove tarefas de exemplo antigas (migração única)
+ * Esta função roda apenas uma vez para usuários que já tinham o sistema anterior
+ */
+function checkAndClearOldExamples() {
+    const cleanupDone = localStorage.getItem('kanban-cleanup-examples');
+    
+    if (!cleanupDone) {
+        // Limpa dados antigos
+        localStorage.removeItem('kanban-tasks');
+        localStorage.removeItem('kanban-next-id');
+        
+        // Marca que a limpeza foi feita
+        localStorage.setItem('kanban-cleanup-examples', 'true');
+        
+        console.log('🧹 Tarefas de exemplo antigas removidas - sistema iniciado limpo');
+    }
+}
 
 // ===== SISTEMA DE ARMAZENAMENTO LOCAL =====
 /*
@@ -90,9 +113,11 @@ function loadTasksFromStorage() {
             
             console.log(`📂 Carregadas ${tasks.length} tarefas do localStorage`);
         } else {
-            // Primeira execução - cria tarefas de exemplo
-            console.log('🆕 Primeira execução - criando tarefas de exemplo');
-            createExampleTasks();
+            // Primeira execução - sistema inicia vazio
+            console.log('🆕 Primeira execução - sistema iniciado vazio');
+            tasks = [];           // Array vazio de tarefas
+            nextTaskId = 1;       // Próximo ID será 1
+            saveTasksToStorage(); // Salva estado inicial vazio
         }
         
         // Renderiza todas as tarefas na tela
@@ -105,160 +130,10 @@ function loadTasksFromStorage() {
     }
 }
 
-// ===== CRIAÇÃO DE TAREFAS DE EXEMPLO =====
-/**
- * Cria tarefas de demonstração para novos usuários
- * Mostra diferentes tipos de prioridade e status
- */
-function createExampleTasks() {
-    // Array com tarefas pré-definidas para demonstração
-    const exampleTasks = [
-        {
-            id: 1,
-            title: '🎨 Implementar tema dark no dashboard',
-            description: 'Criar uma interface moderna e elegante com cores escuras para melhor experiência do usuário',
-            priority: 'high',        // Alta prioridade
-            column: '1',            // Coluna "Tarefas - Hoje"
-            comments: 3,
-            attachments: 2,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-        },
-        {
-            id: 2,
-            title: '🔧 Corrigir bugs de responsividade',
-            description: 'Ajustar layout para funcionar corretamente em dispositivos móveis e tablets',
-            priority: 'medium',      // Média prioridade
-            column: '1',
-            comments: 5,
-            attachments: 1,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-        },
-        {
-            id: 3,
-            title: '⚡ Desenvolver funcionalidade de drag & drop',
-            description: 'Implementar sistema intuitivo de arrastar e soltar cards entre colunas',
-            priority: 'high',
-            column: '2',            // Coluna "Em Andamento"
-            comments: 8,
-            attachments: 4,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-        },
-        {
-            id: 4,
-            title: '🔍 Atualizar documentação da API',
-            description: 'Revisar e atualizar todos os endpoints da API com exemplos práticos',
-            priority: 'low',         // Baixa prioridade
-            column: '3',            // Coluna "Em Revisão"
-            comments: 1,
-            attachments: 6,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-        },
-        {
-            id: 5,
-            title: '🚀 Configurar ambiente de produção',
-            description: 'Configurar servidor, banco de dados e pipeline de deploy para produção',
-            priority: 'high',
-            column: '4',            // Coluna "Concluído"
-            comments: 12,
-            attachments: 5,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-        },
-        {
-            id: 6,
-            title: '📊 Planejar próxima sprint',
-            description: 'Organizar tarefas e definir prioridades para as próximas duas semanas',
-            priority: 'medium',
-            column: '5',            // Coluna "Observações"
-            comments: 15,
-            attachments: 3,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-        }
-    ];
-    
-    // Substitui array vazio pelas tarefas de exemplo
-    tasks = exampleTasks;
-    nextTaskId = 7;  // Próximo ID será 7
-    
-    // Salva as tarefas de exemplo no localStorage
-    saveTasksToStorage();
-    
-    // Mostra modal de boas-vindas após 1 segundo
-    setTimeout(() => {
-        showWelcomeMessage();
-    }, 1000);
-}
-
-/**
- * Exibe modal de boas-vindas para novos usuários
- * Explica as principais funcionalidades do sistema
- */
-function showWelcomeMessage() {
-    // HTML do modal de boas-vindas
-    const welcomeHTML = `
-        <div id="welcomeModal" class="modal-overlay active">
-            <div class="modal" style="max-width: 600px;">
-                <div class="modal-header">
-                    <h3 class="modal-title">🌙 Bem-vindo ao Kanban Dark!</h3>
-                    <button class="close-modal" onclick="closeWelcomeModal()">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                
-                <div style="color: #e2e8f0; line-height: 1.6;">
-                    <p style="margin-bottom: 16px;">
-                        <strong>🎉 Seu sistema de gerenciamento de tarefas está pronto!</strong>
-                    </p>
-                    
-                    <div style="background: #0f172a; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
-                        <h4 style="color: #6366f1; margin-bottom: 12px;">✨ Funcionalidades principais:</h4>
-                        <ul style="margin-left: 20px; margin-bottom: 0;">
-                            <li>➕ <strong>Criar tarefas:</strong> Clique no "+" ou use Ctrl+N</li>
-                            <li>✏️ <strong>Editar tarefas:</strong> Passe o mouse sobre um card e clique no ícone de edição</li>
-                            <li>🗑️ <strong>Excluir tarefas:</strong> Use o ícone de lixeira nos cards</li>
-                            <li>🔄 <strong>Mover tarefas:</strong> Arraste e solte entre colunas</li>
-                            <li>💾 <strong>Auto-salvamento:</strong> Tudo é salvo automaticamente no seu navegador</li>
-                        </ul>
-                    </div>
-                    
-                    <p style="margin-bottom: 0;">
-                        <strong>🚀 Comece criando sua primeira tarefa personalizada!</strong>
-                    </p>
-                </div>
-                
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-primary" onclick="closeWelcomeModal()">
-                        Começar a usar! 🎯
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // Adiciona o modal ao final da página
-    document.body.insertAdjacentHTML('beforeend', welcomeHTML);
-}
-
-/**
- * Fecha o modal de boas-vindas com animação
- */
-function closeWelcomeModal() {
-    const modal = document.getElementById('welcomeModal');
-    if (modal) {
-        // Remove classe active para iniciar animação de saída
-        modal.classList.remove('active');
-        
-        // Remove completamente o modal após animação
-        setTimeout(() => {
-            modal.remove();
-        }, 300);
-    }
-}
+// ===== SISTEMA INICIADO VAZIO =====
+// O sistema agora inicia sem tarefas de exemplo.
+// O usuário pode criar suas próprias tarefas do zero.
+// Todas as funcionalidades estão disponíveis através dos botões "+" ou Ctrl+N.
 
 // ===== SISTEMA DE RENDERIZAÇÃO =====
 /**
