@@ -1,0 +1,521 @@
+/* ===================================================================
+   🌙 KANBAN DARK THEME - FOLHA DE ESTILOS PRINCIPAL
+   ===================================================================
+   Este arquivo contém todos os estilos para o sistema Kanban Dark.
+   Organizado por seções para facilitar a manutenção e compreensão.
+   ================================================================= */
+
+/* ===== IMPORTAÇÃO DE FONTES ===== */
+/* Importa a fonte Poppins do Google Fonts em todos os pesos */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* ===== CONFIGURAÇÕES GLOBAIS ===== */
+/* Aplica configurações básicas a todos os elementos da página */
+* {
+  font-family: 'Poppins', sans-serif; /* Define fonte padrão */
+  margin: 0;                          /* Remove margens padrão do navegador */
+  padding: 0;                         /* Remove padding padrão do navegador */
+  box-sizing: border-box;             /* Inclui padding e border no tamanho total */
+}
+
+/* ===== ESTILO DO CORPO DA PÁGINA ===== */
+body {
+  min-height: 100vh;                  /* Altura mínima de 100% da tela */
+  display: flex;                      /* Usa Flexbox para layout */
+  justify-content: center;            /* Centraliza horizontalmente */
+  align-items: center;                /* Centraliza verticalmente */
+  /* Gradiente de fundo com tons escuros elegantes */
+  background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+}
+
+/* ===== CONTAINER PRINCIPAL DO KANBAN ===== */
+.kanban {
+  display: flex;                      /* Layout flexível horizontal */
+  gap: 14px;                          /* Espaço entre as colunas */
+  padding: 24px;                      /* Espaçamento interno */
+  width: 100%;                        /* Ocupa toda a largura disponível */
+  height: 90vh;                       /* 90% da altura da tela */
+  overflow-x: auto;                   /* Scroll horizontal se necessário */
+}
+
+/* ===== ESTILO DAS COLUNAS KANBAN ===== */
+.kanban-column {
+  display: flex;                      /* Layout flexível vertical */
+  flex-direction: column;             /* Organiza elementos em coluna */
+  gap: 18px;                          /* Espaço entre elementos da coluna */
+  height: 100%;                       /* Altura total disponível */
+  overflow-y: auto;                   /* Scroll vertical se necessário */
+  
+  /* Cores e aparência */
+  background-color: #1e293b;          /* Fundo cinza escuro */
+  border: 1px solid #334155;          /* Borda sutil */
+  border-radius: 12px;                /* Cantos arredondados */
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3); /* Sombra para profundidade */
+  
+  /* Espaçamento e dimensões */
+  padding: 12px;                      /* Espaçamento interno */
+  overflow: hidden;                   /* Esconde conteúdo que ultrapassar */
+  position: relative;                 /* Para posicionamento das barras coloridas */
+  min-width: 252px;                   /* Largura mínima da coluna */
+}
+
+/* ===== BARRAS COLORIDAS NO TOPO DAS COLUNAS ===== */
+/* Pseudo-elemento que cria uma barra colorida no topo de cada coluna */
+.kanban-column::after {
+  position: absolute;                 /* Posicionamento absoluto */
+  content: '';                        /* Conteúdo vazio */
+  height: 5px;                        /* Altura da barra */
+  width: 100%;                        /* Largura total da coluna */
+  top: 0;                             /* Posicionada no topo */
+  left: 0;                            /* Alinhada à esquerda */
+}
+
+/* Cores específicas para cada coluna */
+.kanban-column[data-id="1"]::after {
+  background: linear-gradient(90deg, #ec4899, #f472b6); /* Rosa/Pink */
+}
+
+.kanban-column[data-id="2"]::after {
+  background: linear-gradient(90deg, #f97316, #fb923c); /* Laranja */
+}
+
+.kanban-column[data-id="3"]::after {
+  background: linear-gradient(90deg, #eab308, #facc15); /* Amarelo */
+}
+
+.kanban-column[data-id="4"]::after {
+  background: linear-gradient(90deg, #6366f1, #8b5cf6); /* Roxo */
+}
+
+.kanban-column[data-id="5"]::after {
+  background: linear-gradient(90deg, #06b6d4, #22d3ee); /* Ciano */
+}
+
+/* ===== CABEÇALHO DAS COLUNAS ===== */
+.kanban-title {
+  display: flex;                      /* Layout flexível */
+  justify-content: space-between;     /* Espaça título e botão */
+}
+
+/* Estilo dos títulos das colunas */
+.kanban-title h2 {
+  font-size: 18px;                    /* Tamanho da fonte */
+  color: #e2e8f0;                     /* Cor clara para contraste */
+  font-weight: 600;                   /* Peso da fonte (semi-bold) */
+}
+
+/* ===== BOTÃO ADICIONAR TAREFA ===== */
+.add-card {
+  color: #94a3b8;                     /* Cor inicial (cinza claro) */
+  font-size: 20px;                    /* Tamanho do ícone */
+  background-color: transparent;       /* Fundo transparente */
+  cursor: pointer;                    /* Muda cursor para pointer */
+  border: none;                       /* Remove borda padrão */
+  transition: color 0.2s ease;        /* Transição suave de cor */
+}
+
+/* Efeito hover no botão adicionar */
+.add-card:hover {
+  color: #e2e8f0;                     /* Cor mais clara no hover */
+}
+
+/* ===== CONTAINER DOS CARDS ===== */
+.kanban-cards {
+  display: flex;                      /* Layout flexível */
+  flex-direction: column;             /* Organiza cards em coluna */
+  gap: 8px;                          /* Espaço entre os cards */
+  height: 100%;                      /* Altura total disponível */
+  overflow-y: auto;                  /* Scroll vertical se necessário */
+  overflow-x: hidden;                /* Esconde scroll horizontal */
+}
+
+/* ===== ESTILO DOS CARDS DE TAREFA ===== */
+.kanban-card {
+  display: flex;                     /* Layout flexível */
+  flex-direction: column;            /* Organiza conteúdo em coluna */
+  gap: 8px;                         /* Espaço entre elementos do card */
+  
+  /* Aparência e cores */
+  background-color: #0f172a;         /* Fundo escuro */
+  border: 1px solid #475569;         /* Borda sutil */
+  border-radius: 14px;               /* Cantos bem arredondados */
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  color: #e2e8f0;                    /* Texto claro */
+  
+  /* Comportamento */
+  cursor: pointer;                   /* Indica que é clicável */
+  transition: all 0.2s ease;         /* Transições suaves */
+  position: relative;                /* Para posicionar botões de ação */
+  
+  /* Espaçamento */
+  padding: 10px;                     /* Espaçamento interno */
+}
+
+/* Efeitos no hover dos cards */
+.kanban-card:hover {
+  border-color: #64748b;             /* Borda mais clara */
+  box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.3); /* Sombra mais intensa */
+  transform: translateY(-2px);       /* Eleva ligeiramente o card */
+}
+
+/* Mostra botões de ação no hover */
+.kanban-card:hover .card-actions {
+  opacity: 1;                        /* Torna visível */
+  visibility: visible;               /* Permite interação */
+}
+
+/* ===== BADGES DE PRIORIDADE ===== */
+.badge {
+  color: #ffffff;                    /* Texto branco */
+  width: fit-content;                /* Largura ajustada ao conteúdo */
+  font-size: 12px;                   /* Fonte pequena */
+  padding: 4px 8px;                  /* Espaçamento interno compacto */
+  border-radius: 12px;               /* Cantos bem arredondados */
+  font-weight: 500;                  /* Peso médio da fonte */
+}
+
+/* Cores específicas para cada prioridade */
+.badge.high {
+  background: linear-gradient(135deg, #ec4899, #f472b6); /* Gradiente rosa */
+  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.3);        /* Sombra colorida */
+}
+
+.badge.medium {
+  background: linear-gradient(135deg, #f97316, #fb923c); /* Gradiente laranja */
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);        /* Sombra colorida */
+}
+
+.badge.low {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6); /* Gradiente roxo */
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);        /* Sombra colorida */
+}
+
+/* ===== INFORMAÇÕES DO CARD ===== */
+.card-infos {
+  display: flex;                     /* Layout flexível */
+  justify-content: space-between;    /* Distribui espaço entre ícones e avatar */
+  align-items: center;               /* Alinha verticalmente */
+}
+
+/* Container dos ícones (comentários, anexos) */
+.card-icons {
+  display: flex;                     /* Layout flexível horizontal */
+  gap: 18px;                        /* Espaço entre ícones */
+}
+
+/* Estilo dos ícones */
+.card-icons i {
+  color: #64748b;                   /* Cor neutra */
+  transition: color 0.2s ease;      /* Transição suave */
+}
+
+/* Efeito hover nos ícones */
+.card-icons i:hover {
+  color: #94a3b8;                   /* Cor mais clara no hover */
+}
+
+/* ===== AVATAR DO USUÁRIO ===== */
+.user img {
+  width: 42px;                      /* Largura fixa */
+  height: 42px;                     /* Altura fixa */
+  border-radius: 100%;              /* Formato circular */
+  object-fit: cover;                /* Mantém proporção da imagem */
+  border: 2px solid #334155;        /* Borda sutil */
+}
+
+/* ===== ESTADOS ESPECIAIS ===== */
+/* Card sendo arrastado */
+.dragging {
+  opacity: 0.5;                     /* Semi-transparente */
+}
+
+/* Zona de drop ativa */
+.cards-hover {
+  background-color: #334155;        /* Fundo destacado */
+  border-radius: 8px;               /* Cantos arredondados */
+}
+
+/* ===== BOTÕES DE AÇÃO DOS CARDS ===== */
+.card-actions {
+  position: absolute;               /* Posicionamento absoluto */
+  top: 8px;                        /* Distância do topo */
+  right: 8px;                      /* Distância da direita */
+  display: flex;                   /* Layout flexível */
+  gap: 4px;                       /* Espaço entre botões */
+  opacity: 0;                     /* Invisível inicialmente */
+  visibility: hidden;             /* Não permite interação */
+  transition: all 0.2s ease;      /* Transição suave */
+}
+
+/* Estilo base dos botões de ação */
+.card-action-btn {
+  width: 24px;                     /* Largura fixa */
+  height: 24px;                    /* Altura fixa */
+  border: none;                    /* Remove borda */
+  border-radius: 6px;              /* Cantos arredondados */
+  cursor: pointer;                 /* Cursor de pointer */
+  display: flex;                   /* Flexbox para centralizar */
+  align-items: center;             /* Centraliza verticalmente */
+  justify-content: center;         /* Centraliza horizontalmente */
+  font-size: 12px;                 /* Tamanho do ícone */
+  transition: all 0.2s ease;       /* Transições suaves */
+}
+
+/* Botão de editar (azul) */
+.edit-btn {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8); /* Gradiente azul */
+  color: white;                    /* Ícone branco */
+}
+
+.edit-btn:hover {
+  background: linear-gradient(135deg, #1d4ed8, #1e40af); /* Azul mais escuro */
+  transform: scale(1.1);           /* Aumenta ligeiramente */
+}
+
+/* Botão de excluir (vermelho) */
+.delete-btn {
+  background: linear-gradient(135deg, #ef4444, #dc2626); /* Gradiente vermelho */
+  color: white;                    /* Ícone branco */
+}
+
+.delete-btn:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c); /* Vermelho mais escuro */
+  transform: scale(1.1);           /* Aumenta ligeiramente */
+}
+
+/* ===== MODAL DE CRIAÇÃO/EDIÇÃO ===== */
+/* Overlay do modal (fundo escurecido) */
+.modal-overlay {
+  position: fixed;                 /* Fixo na tela */
+  top: 0;                         /* Cobre toda a tela */
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.8); /* Fundo semi-transparente */
+  backdrop-filter: blur(8px);      /* Efeito de desfoque */
+  display: flex;                   /* Flexbox para centralizar */
+  justify-content: center;         /* Centraliza horizontalmente */
+  align-items: center;             /* Centraliza verticalmente */
+  z-index: 1000;                  /* Fica acima de tudo */
+  opacity: 0;                     /* Invisível inicialmente */
+  visibility: hidden;             /* Não permite interação */
+  transition: all 0.3s ease;      /* Transição suave */
+}
+
+/* Modal ativo (visível) */
+.modal-overlay.active {
+  opacity: 1;                     /* Totalmente visível */
+  visibility: visible;            /* Permite interação */
+}
+
+/* Container do modal */
+.modal {
+  background: linear-gradient(135deg, #1e293b, #334155); /* Gradiente escuro */
+  border: 1px solid #475569;      /* Borda sutil */
+  border-radius: 16px;            /* Cantos bem arredondados */
+  padding: 24px;                  /* Espaçamento interno */
+  width: 90%;                     /* Largura responsiva */
+  max-width: 500px;               /* Largura máxima */
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); /* Sombra intensa */
+  transform: scale(0.9) translateY(20px); /* Posição inicial da animação */
+  transition: all 0.3s ease;      /* Transição suave */
+}
+
+/* Modal ativo com animação */
+.modal-overlay.active .modal {
+  transform: scale(1) translateY(0); /* Posição final da animação */
+}
+
+/* ===== CABEÇALHO DO MODAL ===== */
+.modal-header {
+  display: flex;                   /* Layout flexível */
+  justify-content: space-between;  /* Espaça título e botão fechar */
+  align-items: center;             /* Alinha verticalmente */
+  margin-bottom: 20px;             /* Espaço abaixo */
+}
+
+/* Título do modal */
+.modal-title {
+  color: #e2e8f0;                  /* Cor clara */
+  font-size: 20px;                 /* Tamanho da fonte */
+  font-weight: 600;                /* Peso semi-bold */
+  margin: 0;                       /* Remove margem padrão */
+}
+
+/* Botão fechar modal */
+.close-modal {
+  background: none;                /* Sem fundo */
+  border: none;                    /* Sem borda */
+  color: #94a3b8;                  /* Cor neutra */
+  font-size: 24px;                 /* Tamanho do ícone */
+  cursor: pointer;                 /* Cursor de pointer */
+  padding: 4px;                    /* Espaçamento interno */
+  border-radius: 6px;              /* Cantos arredondados */
+  transition: all 0.2s ease;       /* Transição suave */
+}
+
+.close-modal:hover {
+  color: #e2e8f0;                  /* Cor mais clara */
+  background: rgba(148, 163, 184, 0.1); /* Fundo sutil */
+}
+
+/* ===== FORMULÁRIO DO MODAL ===== */
+/* Grupo de campos do formulário */
+.form-group {
+  margin-bottom: 16px;             /* Espaço entre grupos */
+}
+
+/* Labels dos campos */
+.form-label {
+  display: block;                  /* Ocupa linha inteira */
+  color: #e2e8f0;                  /* Cor clara */
+  font-size: 14px;                 /* Tamanho da fonte */
+  font-weight: 500;                /* Peso médio */
+  margin-bottom: 6px;              /* Espaço abaixo */
+}
+
+/* Campos de entrada (input, textarea, select) */
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;                     /* Largura total */
+  padding: 12px;                   /* Espaçamento interno */
+  background: #0f172a;             /* Fundo escuro */
+  border: 1px solid #475569;       /* Borda sutil */
+  border-radius: 8px;              /* Cantos arredondados */
+  color: #e2e8f0;                  /* Texto claro */
+  font-size: 14px;                 /* Tamanho da fonte */
+  transition: all 0.2s ease;       /* Transições suaves */
+}
+
+/* Estado de foco dos campos */
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;                   /* Remove outline padrão */
+  border-color: #6366f1;           /* Borda azul */
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); /* Sombra azul */
+}
+
+/* Configurações específicas do textarea */
+.form-textarea {
+  resize: vertical;                /* Permite redimensionar apenas verticalmente */
+  min-height: 80px;                /* Altura mínima */
+}
+
+/* Configurações específicas do select */
+.form-select {
+  cursor: pointer;                 /* Cursor de pointer */
+}
+
+/* Opções do select */
+.form-select option {
+  background: #0f172a;             /* Fundo escuro */
+  color: #e2e8f0;                  /* Texto claro */
+}
+
+/* ===== AÇÕES DO MODAL ===== */
+.modal-actions {
+  display: flex;                   /* Layout flexível */
+  gap: 12px;                      /* Espaço entre botões */
+  justify-content: flex-end;       /* Alinha à direita */
+  margin-top: 24px;               /* Espaço acima */
+}
+
+/* Estilo base dos botões */
+.btn {
+  padding: 10px 20px;             /* Espaçamento interno */
+  border: none;                   /* Remove borda */
+  border-radius: 8px;             /* Cantos arredondados */
+  font-size: 14px;                /* Tamanho da fonte */
+  font-weight: 500;               /* Peso médio */
+  cursor: pointer;                /* Cursor de pointer */
+  transition: all 0.2s ease;      /* Transições suaves */
+}
+
+/* Botão primário (salvar) */
+.btn-primary {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6); /* Gradiente roxo */
+  color: white;                   /* Texto branco */
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed); /* Roxo mais escuro */
+  transform: translateY(-1px);    /* Eleva ligeiramente */
+}
+
+/* Botão secundário (cancelar) */
+.btn-secondary {
+  background: #374151;            /* Fundo cinza */
+  color: #d1d5db;                /* Texto claro */
+  border: 1px solid #4b5563;     /* Borda sutil */
+}
+
+.btn-secondary:hover {
+  background: #4b5563;           /* Fundo mais claro */
+  color: #f3f4f6;               /* Texto mais claro */
+}
+
+/* ===== PERSONALIZAÇÃO DA SCROLLBAR ===== */
+/* Largura da scrollbar */
+*::-webkit-scrollbar {
+  width: 8px;                    /* Scrollbar estreita */
+}
+
+/* Trilha da scrollbar */
+*::-webkit-scrollbar-track {
+  background-color: #1e293b;     /* Cor do fundo */
+  border-radius: 8px;            /* Cantos arredondados */
+}
+
+/* Handle (parte que desliza) da scrollbar */
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #475569, #64748b); /* Gradiente */
+  border-radius: 20px;           /* Bem arredondado */
+}
+
+/* Hover no handle da scrollbar */
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #64748b, #94a3b8); /* Mais claro */
+}
+
+/* ===== ANIMAÇÕES ===== */
+/* Animação de entrada dos cards */
+@keyframes slideIn {
+  from {
+    opacity: 0;                   /* Começa invisível */
+    transform: translateY(-20px); /* Posição inicial */
+  }
+  to {
+    opacity: 1;                   /* Termina visível */
+    transform: translateY(0);     /* Posição final */
+  }
+}
+
+/* Classe para cards com animação */
+.card-enter {
+  animation: slideIn 0.4s ease;   /* Aplica animação */
+}
+
+/* ===== RESPONSIVIDADE ===== */
+/* Estilos para telas pequenas (tablets e smartphones) */
+@media (max-width: 768px) {
+  /* Layout em coluna para mobile */
+  .kanban {
+    flex-direction: column;       /* Colunas empilhadas */
+    height: auto;                /* Altura automática */
+    padding: 16px;               /* Padding menor */
+  }
+  
+  /* Colunas ocupam largura total em mobile */
+  .kanban-column {
+    min-width: 100%;             /* Largura total */
+    max-height: 300px;           /* Altura limitada */
+  }
+  
+  /* Modal menor em telas pequenas */
+  .modal {
+    margin: 20px;                /* Margem nas bordas */
+    padding: 20px;               /* Padding menor */
+  }
+}

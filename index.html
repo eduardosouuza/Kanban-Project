@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <!-- ===== CONFIGURAÇÕES META ===== -->
+  <!-- Definição da codificação de caracteres para suportar acentos -->
+  <meta charset="UTF-8">
+  
+  <!-- Configuração para tornar o site responsivo em dispositivos móveis -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Meta tags específicas para tema dark -->
+  <!-- Define que o navegador deve usar esquema de cores escuro -->
+  <meta name="color-scheme" content="dark">
+  
+  <!-- Cor da barra de status em dispositivos móveis -->
+  <meta name="theme-color" content="#0f172a">
+  
+  <!-- Descrição do site para SEO (motores de busca) -->
+  <meta name="description" content="Kanban Board Dark Theme - Organize suas tarefas com estilo">
+
+  <!-- ===== IMPORTAÇÃO DE ESTILOS ===== -->
+  <!-- Link para nosso arquivo CSS personalizado -->
+  <link rel="stylesheet" href="src/css/style.css">
+  
+  <!-- Importação dos ícones Font Awesome (biblioteca de ícones) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- Título que aparece na aba do navegador -->
+  <title>🌙 Kanban Dark</title>
+</head>
+
+<body>
+  <!-- ===== CONTAINER PRINCIPAL DO KANBAN ===== -->
+  <!-- O elemento <main> representa o conteúdo principal da página -->
+  <main class="kanban">
+    
+    <!-- ===== COLUNA 1: TAREFAS DE HOJE ===== -->
+    <!-- Cada coluna tem um data-id único para identificação pelo JavaScript -->
+    <div class="kanban-column" data-id="1">
+      
+      <!-- Cabeçalho da coluna com título e botão de adicionar -->
+      <div class="kanban-title">
+        <h2>📋 Tarefas - Hoje</h2>
+        
+        <!-- Botão para adicionar nova tarefa nesta coluna -->
+        <button class="add-card" title="Adicionar nova tarefa">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </div>
+
+      <!-- Container onde as tarefas desta coluna serão inseridas dinamicamente -->
+      <div class="kanban-cards">
+        <!-- As tarefas serão criadas aqui pelo JavaScript -->
+        <!-- Deixamos vazio porque o JS irá popular com dados do localStorage -->
+      </div>
+    </div>
+
+    <!-- ===== COLUNA 2: EM ANDAMENTO ===== -->
+    <div class="kanban-column" data-id="2">
+      
+      <div class="kanban-title">
+        <h2>⚡ Em Andamento</h2>
+        
+        <button class="add-card" title="Adicionar nova tarefa">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </div>
+
+      <div class="kanban-cards">
+        <!-- Tarefas em progresso aparecerão aqui -->
+      </div>
+    </div>
+
+    <!-- ===== COLUNA 3: EM REVISÃO ===== -->
+    <div class="kanban-column" data-id="3">
+      
+      <div class="kanban-title">
+        <h2>🔍 Em Revisão</h2>
+        
+        <button class="add-card" title="Adicionar nova tarefa">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </div>
+
+      <div class="kanban-cards">
+        <!-- Tarefas aguardando revisão aparecerão aqui -->
+      </div>
+    </div>
+
+    <!-- ===== COLUNA 4: CONCLUÍDO ===== -->
+    <div class="kanban-column" data-id="4">
+      
+      <div class="kanban-title">
+        <h2>✅ Concluído</h2>
+        
+        <button class="add-card" title="Adicionar nova tarefa">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </div>
+
+      <div class="kanban-cards">
+        <!-- Tarefas finalizadas aparecerão aqui -->
+      </div>
+    </div>
+
+    <!-- ===== COLUNA 5: OBSERVAÇÕES ===== -->
+    <div class="kanban-column" data-id="5">
+      
+      <div class="kanban-title">
+        <h2>📝 Observações</h2>
+        
+        <button class="add-card" title="Adicionar nova tarefa">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </div>
+
+      <div class="kanban-cards">
+        <!-- Observações e anotações aparecerão aqui -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== IMPORTAÇÃO DO JAVASCRIPT ===== -->
+  <!-- Script que contém toda a lógica do aplicativo -->
+  <!-- Colocado no final para garantir que o HTML seja carregado primeiro -->
+  <script src="src/javascript/script.js"></script>
+</body>
+
+</html>
